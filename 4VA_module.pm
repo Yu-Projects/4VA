@@ -4,15 +4,17 @@ mdp
 //TODO: model time information
 //TODO: try controller synthesis to optimize properties (including pareto properties)
 //TODO: scale up the number of humans, robots, sites
-
+const double num_sites=2
 
 module human
 
-	h: [0..2] init 0; // human position
+	h: [0..num_sites] init 0; // human position
 
 	[] h=0 -> (h'=1);
 	[] h=0 -> (h'=2);
+	[] h=1 -> (h'=0);
 	[] h=1 -> (h'=2);
+	[] h=2 -> (h'=0);
 	[] h=2 -> (h'=1);
 	//[site1_request_human] h=2 -> 0.5:(h'=1) + 0.5:(h'=2);
 
@@ -21,11 +23,13 @@ endmodule
 
 module uav
 
-	a: [0..2] init 0; // uav position
+	a: [0..num_sites] init 0; // uav position
 
 	[] a=0 -> (a'=1);
 	[] a=0 -> (a'=2);
+	[] a=1 -> (a'=0);
 	[] a=1 -> (a'=2);
+	[] a=2 -> (a'=0);
 	[] a=2 -> (a'=1);
 
 endmodule
@@ -33,11 +37,13 @@ endmodule
 
 module ugv
 
-	g: [0..2] init 0; // ugv position
+	g: [0..num_sites] init 0; // ugv position
 
 	[] g=0 -> (g'=1);
 	[] g=0 -> (g'=2);
+	[] g=1 -> (g'=0);
 	[] g=1 -> (g'=2);
+	[] g=2 -> (g'=0);
 	[] g=2 -> (g'=1);
 
 endmodule
