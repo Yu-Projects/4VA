@@ -50,34 +50,34 @@ endmodule
 module site1
 	s1: [0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 	
-	[] s1=0 & (h=1 | a=1 | g=1) -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
+	[step_time] s1=0 & (h=1 | a=1 | g=1) -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
 	//[site1_request_human] s1=1 -> true;
-	[] s1=1 & h=1 & g=1 -> 0.5:(s1'=1) + 0.5:(s1'=4);
-	[] s1=2 & h=1 -> 0.5:(s1'=2) + 0.5:(s1'=4);
-	[] s1=3 & h=1 & g=1 -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
-	[] s1=3 & h=1 -> 0.5:(s1'=1) + 0.5:(s1'=3);
-	[] s1=4 -> true; // self-loop
+	[step_time] s1=1 & h=1 & g=1 -> 0.5:(s1'=1) + 0.5:(s1'=4);
+	[step_time] s1=2 & h=1 -> 0.5:(s1'=2) + 0.5:(s1'=4);
+	[step_time] s1=3 & h=1 & g=1 -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
+	[step_time] s1=3 & h=1 -> 0.5:(s1'=1) + 0.5:(s1'=3);
+	[step_time] s1=4 -> true; // self-loop
 
-endmodule 
+//endmodule 
 
-module site2
+//module site2
 	s2: [0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 	
-	[] s2=0 & (h=2 | a=2 | g=2) -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
-	[] s2=1 & h=2 & g=2 -> 0.5:(s2'=1) + 0.5:(s2'=4);
-	[] s2=2 & h=2 -> 0.5:(s2'=2) + 0.5:(s2'=4);
-	[] s2=3 & h=2 & g=2 -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
-	[] s2=3 & h=2 -> 0.5:(s2'=1) + 0.5:(s2'=3);
-	[] s2=4 -> true; // self-loop
+	[step_time] s2=0 & (h=2 | a=2 | g=2) -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
+	[step_time] s2=1 & h=2 & g=2 -> 0.5:(s2'=1) + 0.5:(s2'=4);
+	[step_time] s2=2 & h=2 -> 0.5:(s2'=2) + 0.5:(s2'=4);
+	[step_time] s2=3 & h=2 & g=2 -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
+	[step_time] s2=3 & h=2 -> 0.5:(s2'=1) + 0.5:(s2'=3);
+	[step_time] s2=4 -> true; // self-loop
 
 endmodule 
 
 rewards "total_time"
-	[] s1=0: 1;
-	[] s1=1: 1;
-	[] s1=2: 2;
-	[] s1=3: 3;
-	[] s1=4: 4;
+	[step_time] true: 1;
+	//[] s1=1: 1;
+	//[] s1=2: 2;
+	//[] s1=3: 3;
+	//[] s1=4: 4;
 endrewards
 
 rewards "total_movement"
