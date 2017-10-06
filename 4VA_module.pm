@@ -12,13 +12,25 @@ module Human
 
 	[] h=0 -> (h'=0);
 	[] h=0 -> (h'=1);
+	[s1_hg] h=0 -> (h'=1);
+	[s1_h] h=0 -> (h'=1);
 	[] h=0 -> (h'=2);
+	[s2_hg] h=0 -> (h'=2);
+	[s2_h] h=0 -> (h'=2);
 	[] h=1 -> (h'=0);
 	[] h=1 -> (h'=1);
+	[s1_hg] h=1 -> (h'=1);
+	[s1_h] h=1 -> (h'=1);
 	[] h=1 -> (h'=2);
+	[s2_hg] h=1 -> (h'=2);
+	[s2_h] h=1 -> (h'=2);
 	[] h=2 -> (h'=0);
 	[] h=2 -> (h'=1);
+	[s1_hg] h=2 -> (h'=1);
+	[s1_h] h=2 -> (h'=1);
 	[] h=2 -> (h'=2);
+	[s2_hg] h=2 -> (h'=2);
+	[s2_h] h=2 -> (h'=2);
 	//[site1_request_human] h=2 -> 0.5:(h'=1) + 0.5:(h'=2); 
 endmodule
 
@@ -27,13 +39,19 @@ module UGV
 
 	[] g=0 -> (g'=0);
 	[] g=0 -> (g'=1);
+	[s1_hg] g=0 -> (g'=1);
 	[] g=0 -> (g'=2);
+	[s2_hg] g=0 -> (g'=2);
 	[] g=1 -> (g'=0);
 	[] g=1 -> (g'=1);
+	[s1_hg] g=1 -> (g'=1);
 	[] g=1 -> (g'=2);
+	[s2_hg] g=1 -> (g'=2);
 	[] g=2 -> (g'=0);
 	[] g=2 -> (g'=1);
+	[s1_hg] g=2 -> (g'=1);
 	[] g=2 -> (g'=2);
+	[s2_hg] g=2 -> (g'=2);
 endmodule
 
 module UAV
@@ -50,7 +68,7 @@ module UAV
 	[] a=2 -> (a'=2);
 endmodule
 
-module site1
+module sites
 	s1: [0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 	s2: [0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 
@@ -60,14 +78,18 @@ module site1
 	[time] s1=2 & h=1 -> 0.5:(s1'=2) + 0.5:(s1'=4);
 	[time] s1=3 & h=1 & g=1 -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
 	[time] s1=3 & h=1 -> 0.5:(s1'=1) + 0.5:(s1'=3);
-	[time] s1=4 -> true; // self-loop
 
 	[time] s2=0 & (h=2 | a=2 | g=2) -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
 	[time] s2=1 & h=2 & g=2 -> 0.5:(s2'=1) + 0.5:(s2'=4);
 	[time] s2=2 & h=2 -> 0.5:(s2'=2) + 0.5:(s2'=4);
 	[time] s2=3 & h=2 & g=2 -> 0.25:(s2'=1) + 0.25:(s2'=2) + 0.25:(s2'=3) + 0.25:(s2'=4);
 	[time] s2=3 & h=2 -> 0.5:(s2'=1) + 0.5:(s2'=3);
-	[time] s2=4 -> true; // self-loop
+	[] s1=4 | s2=4 -> true; // self-loop
+	
+	[s1_hg] s1 = 1 | s1 = 3 -> true;	//call for agent human/UGV
+	[s1_h] s1 = 2 | s1 = 3 -> true;		//call for agent human
+	[s2_hg] s2 = 1 | s2 = 3 -> true;	//call for agent human/UGV
+	[s2_h] s2 = 2 | s2 = 3 -> true;		//call for agent human
 
 endmodule 
 
