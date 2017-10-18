@@ -136,11 +136,14 @@ module syncer
 	//syncer
 	[]	fs1=1 & fs2=1 & fagent=1 & fagentf=0 -> 1:(fs1'=0) & (fs2'=0) & (fagent'=0) & (fagentf'=3);
 	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh!=0 -> (fh'=fh-1) & (fagentf'=2);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh=0 -> (h'=fhtemp) & (fagentf'=2);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh!=0 & fh=1 -> (h'=fhtemp) & (fh'=fh-1) & (fagentf'=2);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh=0 -> (fagentf'=2);
 	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg!=0 -> (fg'=fg-1) & (fagentf'=1);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg=0 -> (g'=fgtemp) & (fagentf'=1);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg!=0 & fg=1 -> (g'=fgtemp) & (fg'=fg-1) & (fagentf'=0);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg=0 -> (fagentf'=1);
 	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa!=0 -> (fa'=fa-1) & (fagentf'=0);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa=0 -> (a'=fatemp) & (fagentf'=0);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa!=0 & fa=1 -> (a'=fatemp) & (fa'=fa-1) & (fagentf'=0);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa=0 -> (fagentf'=0);
 endmodule
 
 rewards "total_time"
