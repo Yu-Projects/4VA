@@ -17,6 +17,7 @@ const int	total_edges=(num_sites*num_sites)+num_sites; //calculates the number o
 global		fagent : [0..1] init 0; // if there is an agent there or not
 global		fs1:	[0..1] init 0;
 global		fs2:	[0..1] init 0;
+global		fagentf:[0..3] init 0;
 // agents
 global		h:	[0..num_sites] init 0; // human position
 global		g:	[0..num_sites] init 0; // ugv position
@@ -92,7 +93,6 @@ endmodule
 module sites
 	s1:	[0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 	s2:	[0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
-	fagentf:[0..3] init 0;
 
 	//site1
 	[]	fagentf=0 & fs1=0 & s1=0 & (h=1 | a=1 | g=1) -> 0.25:(s1'=1) & (fs1'=1) & (fagent'=1) + 0.25:(s1'=2) & (fs1'=1) & (fagent'=1) + 0.25:(s1'=3) & (fs1'=1) & (fagent'=1) + 0.25:(s1'=4) & (fs1'=1) & (fagent'=1);
@@ -106,17 +106,6 @@ module sites
 	[]	fagentf=0 & fs2=0 & s2=2 & h=2 -> 0.5:(s2'=2) & (fs2'=1) & (fagent'=1) + 0.5:(s2'=4) & (fs2'=1) & (fagent'=1);
 	[]	fagentf=0 & fs2=0 & s2=3 & h=2 & g=2 -> 0.25:(s2'=1) & (fs2'=1) & (fagent'=1) + 0.25:(s2'=2) & (fs2'=1) & (fagent'=1) + 0.25:(s2'=3) & (fs2'=1) & (fagent'=1) + 0.25:(s2'=4) & (fs2'=1) & (fagent'=1);
 	[]	fagentf=0 & fs2=0 & s2=3 & h=2 -> 0.5:(s2'=1) & (fs2'=1) & (fagent'=1) + 0.5:(s2'=3) & (fs2'=1) & (fagent'=1);
-	
-	//syncer
-	[]	fs1=1 & fs2=1 & fagent=1 & fagentf=0 -> 1:(fs1'=0) & (fs2'=0) & (fagent'=0) & (fagentf'=3);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh!=0 -> (fh'=fh-1) & (fagentf'=2);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh=0 -> (fagentf'=2);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg!=0 -> (fg'=fg-1) & (fagentf'=1);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg=0 -> (fagentf'=1);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa!=0 -> (fa'=fa-1) & (fagentf'=0);
-	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa=0 -> (fagentf'=0);
-
-	// added removal of site counter
 
 	// recycling loop for keeping times the same
 	[]	fagentf=0 & fs1=0 & s1=0 -> (s1'=0) & (fs1'=1) & (fagent'=1);
@@ -143,6 +132,16 @@ module sites
 
 endmodule 
 
+module syncer
+	//syncer
+	[]	fs1=1 & fs2=1 & fagent=1 & fagentf=0 -> 1:(fs1'=0) & (fs2'=0) & (fagent'=0) & (fagentf'=3);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh!=0 -> (fh'=fh-1) & (fagentf'=2);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=3 & fh=0 -> (h'=fhtemp) & (fagentf'=2);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg!=0 -> (fg'=fg-1) & (fagentf'=1);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=2 & fg=0 -> (g'=fgtemp) & (fagentf'=1);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa!=0 -> (fa'=fa-1) & (fagentf'=0);
+	[]	fs1=0 & fs2=0 & fagent=0 & fagentf=1 & fa=0 -> (a'=fatemp) & (fagentf'=0);
+endmodule
 
 rewards "total_time"
 	[]fs1=1 & fs2=1 & fagent=1 : 1;
