@@ -1,0 +1,78 @@
+PRISM
+=====
+
+Version: 4.4.beta
+Date: Wed Oct 25 11:54:31 EDT 2017
+Hostname: klyu
+Memory limits: cudd=1g, java(heap)=910.5m
+Command line: prism 4VA_timer.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt
+
+Parsing model file "4VA_timer.pm"...
+
+1 property:
+(1) Rmin=? [ F "done" ]
+
+Type:        MDP
+Modules:     human uav ugv site_one site_two 
+Variables:   h clock_h move_h a clock_a move_a g clock_g move_g s1 s2 
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 30 iterations in 0.07 seconds (average 0.002267, setup 0.00)
+
+Time for model construction: 0.095 seconds.
+
+Type:        MDP
+States:      464100 (1 initial)
+Transitions: 1203335
+Choices:     1060955
+
+Transition matrix: 2391 nodes (4 terminal), 1203335 minterms, vars: 30r/30c/23nd
+
+Exporting list of reachable states in plain text format to file "states.txt"...
+
+---------------------------------------------------------------------
+
+Model checking: Rmin=? [ F "done" ]
+
+Warning: Disabling Prob1 since this is needed for adversary generation
+
+Prob0A: 53 iterations in 0.54 seconds (average 0.010113, setup 0.00)
+
+Prob1E: 54 iterations in 0.61 seconds (average 0.011259, setup 0.00)
+
+Warning: PRISM hasn't checked for zero-reward loops.
+Your minimum rewards may be too low...
+
+goal = 18564, inf = 0, maybe = 445536
+
+Computing remaining rewards...
+Engine: Sparse
+
+Building sparse matrix (transitions)... [n=464100, nc=991148, nnz=1133528, k=11] [18.5 MB]
+Building action information... [1.8 MB]
+Building sparse matrix (transition rewards)... [n=464100, nc=991148, nnz=302400, k=11] [9.0 MB]
+Creating vector for state rewards... [3.5 MB]
+Creating vector for inf... [3.5 MB]
+Allocating iteration vectors... [2 x 3.5 MB]
+Allocating adversary vector... [1.8 MB]
+TOTAL: [45.2 MB]
+
+Starting iterations...
+
+Iterative method: 70 iterations in 1.08 seconds (average 0.011657, setup 0.27)
+
+Adversary written to file "policy.txt".
+
+Value in the initial state: 4.875
+
+Time for model checking: 2.256 seconds.
+
+Result: 4.875 (value in the initial state)
+
+---------------------------------------------------------------------
+
+Note: There were 2 warnings during computation.
+
