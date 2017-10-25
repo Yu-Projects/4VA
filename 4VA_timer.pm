@@ -15,23 +15,30 @@ const int Sh = 3; // human travel speed (time/distance)
 const int Sa = 1; // UVA travel speed (time/distance)
 const int Sg = 2; // UGV travel speed (time/distance)
 
-// SITE INFORMATION
+// SITES
 const int N = 2; // number of sites
 const int site0 = 0;
 const int site1 = 1;
 const int site2 = 2;
 
+// SITE INFORMATION
+const int state0 = 0; // unknown
+const int state1 = 1; // fire
+const int state2 = 2; // human
+const int state3 = 3; // fire+human
+const int state4 = 4; // nuteral
+
 
 // main agent module
 module human
 
-	h: [0..N] init 0; // human position
-	clock_h: [0..Ch_MAX] init 0; // clock of human
-	move_h: bool init false; // human in the move
+	h: [0..N] init 0; // position of human (which site the agent is at)
+	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
+	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
-	[time] clock_h>1 -> (clock_h'=clock_h-1);
-	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false);
+	[time] clock_h>1 -> (clock_h'=clock_h-1); // if agent is moving
+	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
 
 	// human movement between sites
 	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
@@ -63,12 +70,12 @@ module site_one
 
 	s1: [0..4] init 0; //state of the site (0 unknown, 1 fire, 2 human, 3 fire+human, 4 nuteral)
 
-	[] s1=0 & ((h=site1 & !move_h) | (a=site1 & !move_a) | (g=site1 & !move_g)) -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
-	[] s1=1 & (h=site1 & !move_h)  & (g=site1 & !move_g) -> 0.5:(s1'=1) + 0.5:(s1'=4);
-	[] s1=2 & (h=site1 & !move_h) -> 0.5:(s1'=2) + 0.5:(s1'=4);
-	[] s1=3 & (h=site1 & !move_h) & (g=site1 & !move_g) -> 0.25:(s1'=1) + 0.25:(s1'=2) + 0.25:(s1'=3) + 0.25:(s1'=4);
-	[] s1=3 & (h=site1 & !move_h) & g!=site1 -> 0.5:(s1'=1) + 0.5:(s1'=3);
-	[] s1=4 -> true; // self-loop
+	[] s1=state0 & ((h=site1 & !move_h) | (a=site1 & !move_a) | (g=site1 & !move_g))	-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4);
+	[] s1=state1 & (h=site1 & !move_h)  & (g=site1 & !move_g)				-> 0.50:(s1'=state1) + 0.50:(s1'=state4);
+	[] s1=state2 & (h=site1 & !move_h)							-> 0.50:(s1'=state2) + 0.50:(s1'=state4);
+	[] s1=state3 & (h=site1 & !move_h) & (g=site1 & !move_g)				-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4);
+	[] s1=state3 & (h=site1 & !move_h) & g!=site1						-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
+	[] s1=state4										-> true; // self-loop
 
 endmodule 
 
@@ -76,7 +83,7 @@ endmodule
 module site_two = site_one [s1=s2, site1=site2] endmodule
 
 // counter for time
-rewards
+rewards "time"
 	[time]true : 1;
 endrewards
 
