@@ -24,8 +24,6 @@ const int D45 = 3;
 const int D46 = 4;
 const int D56 = 2;
 
-
-
 // SITES
 const int N = 6; // number of sites
 const int site0 = 0;
@@ -57,7 +55,8 @@ const int state4 = 4; // nuteral
 // main agent module
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
-	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
+//	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
+	clock_h: int init 0;
 	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
