@@ -41,8 +41,8 @@ const int state4 = 4; // nuteral
 //TODO: NEED TO ADD GLOBAL TIME OR REFERENCE REWARD FUNCTION
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
-//	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
-	clock_h: int init 0;
+	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
+//	clock_h: int init 0;
 	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
@@ -95,7 +95,7 @@ module site_two = site_one[s1=s2, site1=site2] endmodule
 
 module globalTime
 	totTime: int init 0;
-	[time] true -> (totTime' = totTime+1);
+	[time] s1!=4 & s2!=4 -> (totTime' = totTime+1);
 endmodule
 
 // finish state
