@@ -3,36 +3,36 @@ mdp
 // DISTANCE CONSTANTS
 const int D01 = 2; // distance between site0 and site1
 const int D02 = 3; // distance between site0 and site2
-//const int D03 = 2;
-//const int D04 = 4;
-//const int D05 = 3;
-//const int D06 = 4;
+const int D03 = 2;
+const int D04 = 4;
+const int D05 = 3;
+const int D06 = 4;
 
 const int D12 = 4; // distance between site1 and site2
-//const int D13 = 3;
-//const int D14 = 3;
-//const int D15 = 2;
-//const int D16 = 4;
-//const int D23 = 2;
-//const int D24 = 3;
-//const int D25 = 3;
-//const int D26 = 2;
-//const int D34 = 4;
-//const int D35 = 2;
-//const int D36 = 3; 
-//const int D45 = 3;
-//const int D46 = 4;
-//const int D56 = 2;
+const int D13 = 3;
+const int D14 = 3;
+const int D15 = 2;
+const int D16 = 4;
+const int D23 = 2;
+const int D24 = 3;
+const int D25 = 3;
+const int D26 = 2;
+const int D34 = 4;
+const int D35 = 2;
+const int D36 = 3; 
+const int D45 = 3;
+const int D46 = 4;
+const int D56 = 2;
 
 // SITES
-const int N = 2; // number of sites
+const int N = 6; // number of sites
 const int site0 = 0;
 const int site1 = 1;
 const int site2 = 2;
-//const int site3 = 3;
-//const int site4 = 4;
-//const int site5 = 5;
-//const int site6 = 6;
+const int site3 = 3;
+const int site4 = 4;
+const int site5 = 5;
+const int site6 = 6;
 
 // TIMING CONSTANTS
 const int Ch_MAX = 20; // max vlaue of clock_h
@@ -69,52 +69,52 @@ module human
 	// human movement between sites
 	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
 	[human_0_2] h=site0 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D02*Sh) & (move_h'=true);
-//	[human_0_3] h=site0 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D03*Sh) & (move_h'=true);
-//	[human_0_4] h=site0 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D04*Sh) & (move_h'=true);
-//	[human_0_5] h=site0 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D05*Sh) & (move_h'=true);
-//	[human_0_6] h=site0 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D06*Sh) & (move_h'=true);
+	[human_0_3] h=site0 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D03*Sh) & (move_h'=true);
+	[human_0_4] h=site0 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D04*Sh) & (move_h'=true);
+	[human_0_5] h=site0 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D05*Sh) & (move_h'=true);
+	[human_0_6] h=site0 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D06*Sh) & (move_h'=true);
 
 	[human_1_0] h=site1 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D01*Sh) & (move_h'=true);
 	[human_1_2] h=site1 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D12*Sh) & (move_h'=true);
-//	[human_1_3] h=site1 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D13*Sh) & (move_h'=true);
-//	[human_1_4] h=site1 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D14*Sh) & (move_h'=true);
-//	[human_1_5] h=site1 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D15*Sh) & (move_h'=true);
-//	[human_1_6] h=site1 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D16*Sh) & (move_h'=true);
+	[human_1_3] h=site1 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D13*Sh) & (move_h'=true);
+	[human_1_4] h=site1 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D14*Sh) & (move_h'=true);
+	[human_1_5] h=site1 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D15*Sh) & (move_h'=true);
+	[human_1_6] h=site1 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D16*Sh) & (move_h'=true);
 
 	[human_2_0] h=site2 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D02*Sh) & (move_h'=true);
 	[human_2_1] h=site2 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D12*Sh) & (move_h'=true);
-//	[human_2_3] h=site2 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D23*Sh) & (move_h'=true);
-//	[human_2_4] h=site2 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D24*Sh) & (move_h'=true);
-//	[human_2_5] h=site2 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D25*Sh) & (move_h'=true);
-//	[human_2_6] h=site2 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D26*Sh) & (move_h'=true);
+	[human_2_3] h=site2 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D23*Sh) & (move_h'=true);
+	[human_2_4] h=site2 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D24*Sh) & (move_h'=true);
+	[human_2_5] h=site2 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D25*Sh) & (move_h'=true);
+	[human_2_6] h=site2 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D26*Sh) & (move_h'=true);
 
-//	[human_3_0] h=site3 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D03*Sh) & (move_h'=true);
-//	[human_3_1] h=site3 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D13*Sh) & (move_h'=true);
-//	[human_3_2] h=site3 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D23*Sh) & (move_h'=true);
-//	[human_3_4] h=site3 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D34*Sh) & (move_h'=true);
-//	[human_3_5] h=site3 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D35*Sh) & (move_h'=true);
-//	[human_3_6] h=site3 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D36*Sh) & (move_h'=true);
+	[human_3_0] h=site3 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D03*Sh) & (move_h'=true);
+	[human_3_1] h=site3 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D13*Sh) & (move_h'=true);
+	[human_3_2] h=site3 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D23*Sh) & (move_h'=true);
+	[human_3_4] h=site3 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D34*Sh) & (move_h'=true);
+	[human_3_5] h=site3 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D35*Sh) & (move_h'=true);
+	[human_3_6] h=site3 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D36*Sh) & (move_h'=true);
 
-//	[human_4_0] h=site4 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D04*Sh) & (move_h'=true);
-//	[human_4_1] h=site4 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D14*Sh) & (move_h'=true);
-//	[human_4_2] h=site4 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D24*Sh) & (move_h'=true);
-//	[human_4_3] h=site4 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D34*Sh) & (move_h'=true);
-//	[human_4_5] h=site4 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D45*Sh) & (move_h'=true);
-//	[human_4_6] h=site4 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D46*Sh) & (move_h'=true);
+	[human_4_0] h=site4 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D04*Sh) & (move_h'=true);
+	[human_4_1] h=site4 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D14*Sh) & (move_h'=true);
+	[human_4_2] h=site4 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D24*Sh) & (move_h'=true);
+	[human_4_3] h=site4 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D34*Sh) & (move_h'=true);
+	[human_4_5] h=site4 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D45*Sh) & (move_h'=true);
+	[human_4_6] h=site4 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D46*Sh) & (move_h'=true);
 
-//	[human_5_0] h=site5 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D05*Sh) & (move_h'=true);
-//	[human_5_1] h=site5 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D15*Sh) & (move_h'=true);
-//	[human_5_2] h=site5 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D25*Sh) & (move_h'=true);
-//	[human_5_3] h=site5 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D35*Sh) & (move_h'=true);
-//	[human_5_4] h=site5 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D45*Sh) & (move_h'=true);
-//	[human_5_6] h=site5 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D46*Sh) & (move_h'=true);
+	[human_5_0] h=site5 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D05*Sh) & (move_h'=true);
+	[human_5_1] h=site5 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D15*Sh) & (move_h'=true);
+	[human_5_2] h=site5 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D25*Sh) & (move_h'=true);
+	[human_5_3] h=site5 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D35*Sh) & (move_h'=true);
+	[human_5_4] h=site5 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D45*Sh) & (move_h'=true);
+	[human_5_6] h=site5 & clock_h=0 & !move_h -> (h'=site6) & (clock_h'=D46*Sh) & (move_h'=true);
 
-//	[human_6_0] h=site6 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D06*Sh) & (move_h'=true);
-//	[human_6_1] h=site6 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D16*Sh) & (move_h'=true);
-//	[human_6_2] h=site6 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D26*Sh) & (move_h'=true);
-//	[human_6_3] h=site6 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D36*Sh) & (move_h'=true);
-//	[human_6_4] h=site6 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D46*Sh) & (move_h'=true);
-//	[human_6_5] h=site6 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D56*Sh) & (move_h'=true);
+	[human_6_0] h=site6 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D06*Sh) & (move_h'=true);
+	[human_6_1] h=site6 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D16*Sh) & (move_h'=true);
+	[human_6_2] h=site6 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D26*Sh) & (move_h'=true);
+	[human_6_3] h=site6 & clock_h=0 & !move_h -> (h'=site3) & (clock_h'=D36*Sh) & (move_h'=true);
+	[human_6_4] h=site6 & clock_h=0 & !move_h -> (h'=site4) & (clock_h'=D46*Sh) & (move_h'=true);
+	[human_6_5] h=site6 & clock_h=0 & !move_h -> (h'=site5) & (clock_h'=D56*Sh) & (move_h'=true);
 endmodule
 
 // uav agent
@@ -147,10 +147,10 @@ endmodule
 
 // duplicate site modules
 module site_two = site_one[s1=s2, site1=site2] endmodule
-//module site_three = site_one[s1=s3, site1=site3] endmodule
-//module site_four = site_one[s1=s4, site1=site4] endmodule
-//module site_five = site_one[s1=s5, site1=site5] endmodule
-//module site_six = site_one[s1=s6, site1=site6] endmodule
+module site_three = site_one[s1=s3, site1=site3] endmodule
+module site_four = site_one[s1=s4, site1=site4] endmodule
+module site_five = site_one[s1=s5, site1=site5] endmodule
+module site_six = site_one[s1=s6, site1=site6] endmodule
 
 // counter for time
 rewards "time"
@@ -158,5 +158,5 @@ rewards "time"
 endrewards
 
 // finish state
-label "done" = s1=4 & s2=4;// & s3=4 & s4=4 & s5=4 & s6=4;
+label "done" = s1=4 & s2=4 & s3=4 & s4=4 & s5=4 & s6=4;
 
