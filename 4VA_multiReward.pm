@@ -1,4 +1,5 @@
 mdp
+// working on multi_rewards
 
 // DISTANCE CONSTANTS
 const int D01 = 2; // distance between site0 and site1

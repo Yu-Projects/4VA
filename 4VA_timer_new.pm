@@ -1,4 +1,6 @@
 mdp
+// working on trying to lower the state space
+// adding random speed for all; based on probability instead.
 
 // DISTANCE CONSTANTS
 const int D01 = 2; // distance between site0 and site1
@@ -29,36 +31,26 @@ const int state2 = 2; // human
 const int state3 = 3; // fire+human
 const int state4 = 4; // nuteral
 
-//module time
-//	totTime: [0..20] init 0;
-//	timeMovement: bool init false;
-//
-//	[time] true -> (timeMovement'=true);
-//	[] timeMovement=true & totTime>-1 & totTime<20 -> (totTime'=totTime+1) & (timeMovement'=false);
-//endmodule
-
 // main agent module
-//TODO: NEED TO ADD GLOBAL TIME OR REFERENCE REWARD FUNCTION
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
 	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
-//	clock_h: int init 0;
 	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
-	[time] clock_h>totTime+1 -> true; // if agent is moving
-	[time] clock_h=totTime+1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
+	[time] clock_h>1 -> true; // if agent is moving
+	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
 
 	// human stays at the same site
-	[] clock_h=0 & !move_h -> (clock_h'=totTime+1);
+	[] clock_h=0 & !move_h -> (clock_h'=1);
 
 	// human movement between sites
-	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh+totTime) & (move_h'=true);
-	[human_0_2] h=site0 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D02*Sh+totTime) & (move_h'=true);
-	[human_1_0] h=site1 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D01*Sh+totTime) & (move_h'=true);
-	[human_1_2] h=site1 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D12*Sh+totTime) & (move_h'=true);
-	[human_2_0] h=site2 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D02*Sh+totTime) & (move_h'=true);
-	[human_2_1] h=site2 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D12*Sh+totTime) & (move_h'=true);
+	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
+	[human_0_2] h=site0 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D02*Sh) & (move_h'=true);
+	[human_1_0] h=site1 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D01*Sh) & (move_h'=true);
+	[human_1_2] h=site1 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D12*Sh) & (move_h'=true);
+	[human_2_0] h=site2 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D02*Sh) & (move_h'=true);
+	[human_2_1] h=site2 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D12*Sh) & (move_h'=true);
 endmodule
 
 // uav agent
@@ -89,14 +81,9 @@ endmodule
 module site_two = site_one[s1=s2, site1=site2] endmodule
 
 // counter for time
-//rewards "time"
-//	[time]true : 1;
-//endrewards
-
-module globalTime
-	totTime: int init 0;
-	[time] s1!=4 & s2!=4 -> (totTime' = totTime+1);
-endmodule
+rewards "time"
+	[time]true : 1;
+endrewards
 
 // finish state
 label "done" = s1=4 & s2=4; //& s3=4;  & s4=4 & s5=4 & s6=4;
