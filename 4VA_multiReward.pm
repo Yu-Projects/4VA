@@ -1,5 +1,4 @@
 mdp
-// working on multi_rewards
 
 // DISTANCE CONSTANTS
 const int D01 = 2; // distance between site0 and site1
@@ -37,16 +36,20 @@ const int valuables2_MAX = 50;
 const int decay1 = -1;
 const int decay2 = -2;
 
+// GLOBAL CLOCK
+// global totClock: [0..500] init 0;
+
 
 // main agent module
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
 	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
 	move_h: bool init false; // human moving (lock for agent movement)
+	totClock: [0..100] init 0;
 
 	// time passage
-	[time] clock_h>1 -> (clock_h'=clock_h-1); // if agent is moving
-	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
+	[time] clock_h>1 -> (clock_h'=clock_h-1) & (totClock' = totClock + 1); // if agent is moving
+	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false) &  (totClock' = totClock + 1); // agent has stopped moving
 
 	// human stays at the same site
 	[] clock_h=0 & !move_h -> (clock_h'=1);
@@ -63,7 +66,7 @@ module human
 endmodule
 
 // uav agent
-module uav = human [h=a, clock_h=clock_a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa, 
+module uav = human [h=a, clock_h=clock_a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa, totClock = totClock1,
 			human_0_1=uav_0_1, human_0_2=uav_0_2, human_0_3=uav_0_3, human_0_4=uav_0_4, human_0_5=uav_0_5, human_0_6=uav_0_6, human_1_0=uav_1_0, human_1_2=uav_1_2, human_1_3=uav_1_3, human_1_4=uav_1_4, human_1_5=uav_1_5, human_1_6=uav_1_6,
 			human_2_0=uav_2_0, human_2_1=uav_2_1, human_2_3=uav_2_3, human_2_4=uav_2_4, human_2_5=uav_2_5, human_2_6=uav_2_6, human_3_0=uav_3_0, human_3_1=uav_3_1, human_3_2=uav_3_2, human_3_4=uav_3_4, human_3_5=uav_3_5, human_3_6=uav_3_6,
 			human_4_0=uav_4_0, human_4_1=uav_4_1, human_4_2=uav_4_2, human_4_3=uav_4_3, human_4_5=uav_4_5, human_4_6=uav_4_6, human_5_0=uav_5_0, human_5_1=uav_5_1, human_5_2=uav_5_2, human_5_3=uav_5_3, human_5_4=uav_5_4, human_5_6=uav_5_6,
@@ -71,7 +74,7 @@ module uav = human [h=a, clock_h=clock_a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa,
 endmodule
 
 // ugv agent
-module ugv = human [h=g, clock_h=clock_g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg,
+module ugv = human [h=g, clock_h=clock_g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg, totClock = totClock2,
 			human_0_1=ugv_0_1, human_0_2=ugv_0_2, human_0_3=ugv_0_3, human_0_4=ugv_0_4, human_0_5=ugv_0_5, human_0_6=ugv_0_6, human_1_0=ugv_1_0, human_1_2=ugv_1_2, human_1_3=ugv_1_3, human_1_4=ugv_1_4, human_1_5=ugv_1_5, human_1_6=ugv_1_6,
 			human_2_0=ugv_2_0, human_2_1=ugv_2_1, human_2_3=ugv_2_3, human_2_4=ugv_2_4, human_2_5=ugv_2_5, human_2_6=ugv_2_6, human_3_0=ugv_3_0, human_3_1=ugv_3_1, human_3_2=ugv_3_2, human_3_4=ugv_3_4, human_3_5=ugv_3_5, human_3_6=ugv_3_6,
 			human_4_0=ugv_4_0, human_4_1=ugv_4_1, human_4_2=ugv_4_2, human_4_3=ugv_4_3, human_4_5=ugv_4_5, human_4_6=ugv_4_6, human_5_0=ugv_5_0, human_5_1=ugv_5_1, human_5_2=ugv_5_2, human_5_3=ugv_5_3, human_5_4=ugv_5_4, human_5_6=ugv_5_6,
@@ -103,8 +106,8 @@ endrewards
 
 //TODO: NEEDS TO BE FIXED FOR VARIABLES
 rewards "valuables"
-	[] s1 = 4 & s1_finished = true: (decay1*time)+valuables1;
-	[] s2 = 4 & s2_finished = true: (decay2*time)+valuables2;
+	[] s1 = 4 & s1_finished = true: (decay1*totClock)+valuables1_MAX;
+	[] s2 = 4 & s2_finished = true: (decay2*totClock)+valuables2_MAX;
 endrewards
 
 // finish state
