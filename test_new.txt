@@ -1,0 +1,48 @@
+PRISM
+=====
+
+Version: 4.4.beta
+Date: Wed Nov 15 09:46:23 EST 2017
+Hostname: klyu
+Memory limits: cudd=1g, java(heap)=910.5m
+Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m -ex
+
+Parsing model file "4VA_timer_new.pm"...
+
+1 property:
+(1) Rmin=? [ F "done" ]
+
+Type:        MDP
+Modules:     human uav ugv site_one site_two 
+Variables:   h move_h a move_a g move_g s1 s2 
+
+Building model...
+
+Computing reachable states... 5400 states
+Reachable states exploration and model construction done in 0.133 secs.
+Sorting reachable states list...
+
+Time for model construction: 0.163 seconds.
+
+Type:        MDP
+States:      5400 (1 initial)
+Transitions: 28744
+Choices:     20449
+Max/avg:     8/3.79
+
+Exporting list of reachable states in plain text format to file "states.txt"...
+
+---------------------------------------------------------------------
+
+Model checking: Rmin=? [ F "done" ]
+Building reward structure...
+
+Starting expected reachability (min)...
+Starting Prob1 (max)...
+Prob1 (max) took 12 iterations and 0.025 seconds.
+target=216, inf=0, rest=5184
+For Rmin, checking for zero-reward ECs...
+Time for checking for zero-reward ECs: 0.407 seconds, built quotient MDP with 1728 zero-reward MECs.
+
+Error: Constructing a strategy for Rmin in the presence of zero-reward ECs is currently not supported.
+

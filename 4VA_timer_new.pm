@@ -34,23 +34,24 @@ const int state4 = 4; // nuteral
 // main agent module
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
-	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
+//	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
 	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
-	[time] clock_h>1 -> true; // if agent is moving
-	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
+//	[time] clock_h>1 -> true; // if agent is moving
+//	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
+	[time] move_h = true -> 0.9:(move_h'=false) + 0.1:(move_h'=true);
 
 	// human stays at the same site
-	[] clock_h=0 & !move_h -> (clock_h'=1);
+//	[] clock_h=0 & !move_h -> (clock_h'=1);
 
 	// human movement between sites
-	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
-	[human_0_2] h=site0 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D02*Sh) & (move_h'=true);
-	[human_1_0] h=site1 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D01*Sh) & (move_h'=true);
-	[human_1_2] h=site1 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D12*Sh) & (move_h'=true);
-	[human_2_0] h=site2 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D02*Sh) & (move_h'=true);
-	[human_2_1] h=site2 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D12*Sh) & (move_h'=true);
+	[human_0_1] h=site0 & !move_h -> (h'=site1) & (move_h'=true);
+	[human_0_2] h=site0 & !move_h -> (h'=site2) & (move_h'=true);
+	[human_1_0] h=site1 & !move_h -> (h'=site0) & (move_h'=true);
+	[human_1_2] h=site1 & !move_h -> (h'=site2) & (move_h'=true);
+	[human_2_0] h=site2 & !move_h -> (h'=site0) & (move_h'=true);
+	[human_2_1] h=site2 & !move_h -> (h'=site1) & (move_h'=true);
 endmodule
 
 // uav agent
