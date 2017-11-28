@@ -48,8 +48,8 @@ module human
 	totClock: [0..100] init 0;
 
 	// time passage
-	[time] clock_h>1 -> (clock_h'=clock_h-1) & (totClock' = totClock + 1); // if agent is moving
-	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false) &  (totClock' = totClock + 1); // agent has stopped moving
+	[time] clock_h>1 & totClock<100 -> (clock_h'=clock_h-1) & (totClock' = totClock + 1); // if agent is moving
+	[time] clock_h=1 & totClock<100 -> (clock_h'=0) & (move_h'=false) &  (totClock' = totClock + 1); // agent has stopped moving
 
 	// human stays at the same site
 	[] clock_h=0 & !move_h -> (clock_h'=1);
@@ -105,10 +105,10 @@ rewards "time"
 endrewards
 
 //TODO: NEEDS TO BE FIXED FOR VARIABLES
-rewards "valuables"
-	[] s1 = 4 & s1_finished = true: (decay1*totClock)+valuables1_MAX;
-	[] s2 = 4 & s2_finished = true: (decay2*totClock)+valuables2_MAX;
-endrewards
+//rewards "valuables"
+//	[] s1 = 4 & s1_finished = true: (decay1*totClock)+valuables1_MAX;
+//	[] s2 = 4 & s2_finished = true: (decay2*totClock)+valuables2_MAX;
+//endrewards
 
 // finish state
 label "done" = s1=4 & s2=4;
