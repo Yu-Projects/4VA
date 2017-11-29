@@ -35,16 +35,17 @@ const int state4 = 4; // nuteral
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
 //	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
-	move_h: bool init false; // human moving (lock for agent movement)
+	move_h: bool init false; // human moving (lock for agent movement)\
+	totClock: [0..100] init 0;
 
 	// time passage
 //	[time] clock_h>1 -> true; // if agent is moving
 //	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
-	[time] move_h = true -> 0.9:(move_h'=false) + 0.1:(move_h'=true);
+	[time] move_h = true & totClock<100 -> 0.9:(move_h'=false) & (totClock'=totClock+1) + 0.1:(move_h'=true) & (totClock'=totClock+1);
 
 	// human stays at the same site
 //	[] clock_h=0 & !move_h -> (clock_h'=1);
-	[time] move_h = false -> true;
+	[time] move_h = false & totClock<100 -> true & (totClock'=totClock+1);
 
 	// human movement between sites
 	[human_0_1] h=site0 & !move_h -> (h'=site1) & (move_h'=true);
@@ -56,13 +57,13 @@ module human
 endmodule
 
 // uav agent
-module uav = human [h=a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa, 
+module uav = human [h=a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa, totClock=totClock1, 
 			human_0_1=uav_0_1, human_0_2=uav_0_2, human_1_0=uav_1_0, human_1_2=uav_1_2,
 			human_2_0=uav_2_0, human_2_1=uav_2_1]
 endmodule
 
 // ugv agent
-module ugv = human [h=g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg,
+module ugv = human [h=g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg, totClock=totClock2,
 			human_0_1=ugv_0_1, human_0_2=ugv_0_2, human_1_0=ugv_1_0, human_1_2=ugv_1_2,
 			human_2_0=ugv_2_0, human_2_1=ugv_2_1]
 endmodule
@@ -77,6 +78,8 @@ module site_one
 	[] s1=state3 & (h=site1 & !move_h) & (g=site1 & !move_g)				-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4);
 	[] s1=state3 & (h=site1 & !move_h) & g!=site1						-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
 	[] s1=state4										-> true; // self-loop
+	
+	[] totClock>99 -> s1'=state4
 endmodule 
 
 // duplicate site modules
