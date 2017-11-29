@@ -29,8 +29,8 @@ const int state3 = 3; // fire+human
 const int state4 = 4; // nuteral
 
 //VALUABLES
-const int valuables1_MAX = 100;
-const int valuables2_MAX = 50;
+const int valuables1_MAX = 1000;
+const int valuables2_MAX = 500;
 
 //DECAYS
 const int decay1 = -1;
@@ -105,10 +105,10 @@ rewards "time"
 endrewards
 
 //TODO: NEEDS TO BE FIXED FOR VARIABLES
-//rewards "valuables"
-//	[] s1 = 4 & s1_finished = true: (decay1*totClock)+valuables1_MAX;
-//	[] s2 = 4 & s2_finished = true: (decay2*totClock)+valuables2_MAX;
-//endrewards
+rewards "valuables"
+	[] s1 = 4 & s1_finished = true: (decay1*totClock)+valuables1_MAX;
+	[] s2 = 4 & s2_finished = true: (decay2*totClock)+valuables2_MAX;
+endrewards
 
 // finish state
 label "done" = s1=4 & s2=4;
