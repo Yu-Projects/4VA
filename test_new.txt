@@ -2,10 +2,10 @@ PRISM
 =====
 
 Version: 4.4.beta
-Date: Wed Nov 15 09:46:23 EST 2017
+Date: Wed Nov 29 21:05:19 EST 2017
 Hostname: klyu
 Memory limits: cudd=1g, java(heap)=910.5m
-Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m -ex
+Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
 
 Parsing model file "4VA_timer_new.pm"...
 
@@ -14,35 +14,69 @@ Parsing model file "4VA_timer_new.pm"...
 
 Type:        MDP
 Modules:     human uav ugv site_one site_two 
-Variables:   h move_h a move_a g move_g s1 s2 
+Variables:   h move_h totClock a move_a totClock1 g move_g totClock2 s1 s2 
 
 Building model...
 
-Computing reachable states... 5400 states
-Reachable states exploration and model construction done in 0.133 secs.
-Sorting reachable states list...
+Computing reachable states...
 
-Time for model construction: 0.163 seconds.
+Reachability (BFS): 19 iterations in 0.08 seconds (average 0.004421, setup 0.00)
+
+Time for model construction: 0.151 seconds.
+
+Warning: Deadlocks detected and fixed in 84912 states
 
 Type:        MDP
-States:      5400 (1 initial)
-Transitions: 28744
-Choices:     20449
-Max/avg:     8/3.79
+States:      5952768 (1 initial)
+Transitions: 41789987
+Choices:     27027654
+
+Transition matrix: 8703 nodes (13 terminal), 41789987 minterms, vars: 27r/27c/21nd
 
 Exporting list of reachable states in plain text format to file "states.txt"...
 
 ---------------------------------------------------------------------
 
 Model checking: Rmin=? [ F "done" ]
-Building reward structure...
+Switching engine since only sparse engine currently supports this computation...
 
-Starting expected reachability (min)...
-Starting Prob1 (max)...
-Prob1 (max) took 12 iterations and 0.025 seconds.
-target=216, inf=0, rest=5184
-For Rmin, checking for zero-reward ECs...
-Time for checking for zero-reward ECs: 0.407 seconds, built quotient MDP with 1728 zero-reward MECs.
+Warning: Disabling Prob1 since this is needed for adversary generation
 
-Error: Constructing a strategy for Rmin in the presence of zero-reward ECs is currently not supported.
+Prob0A: 14 iterations in 0.21 seconds (average 0.014857, setup 0.00)
+
+Prob1E: 165 iterations in 5.02 seconds (average 0.030448, setup 0.00)
+
+Warning: PRISM hasn't checked for zero-reward loops.
+Your minimum rewards may be too low...
+
+goal = 238051, inf = 2496888, maybe = 3217829
+
+Computing remaining rewards...
+Engine: Sparse
+
+Building sparse matrix (transitions)... [n=5952768, nc=16611525, nnz=24204086, k=10] [363.1 MB]
+Building action information... [22.7 MB]
+Building sparse matrix (transition rewards)... [n=5952768, nc=16611525, nnz=7838928, k=10] [175.8 MB]
+Creating vector for state rewards... [45.4 MB]
+Creating vector for inf... [45.4 MB]
+Allocating iteration vectors... [2 x 45.4 MB]
+Allocating adversary vector... [22.7 MB]
+TOTAL: [765.9 MB]
+
+Starting iterations...
+Iteration 31: max relative diff=0.029695, 5.05 sec so far
+
+Iterative method: 51 iterations in 16.50 seconds (average 0.219608, setup 5.30)
+
+Adversary written to file "policy.txt".
+
+Value in the initial state: 1.1291132184980457
+
+Time for model checking: 23.301 seconds.
+
+Result: 1.1291132184980457 (value in the initial state)
+
+---------------------------------------------------------------------
+
+Note: There were 3 warnings during computation.
 

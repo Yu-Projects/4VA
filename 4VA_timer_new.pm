@@ -36,16 +36,16 @@ module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
 //	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
 	move_h: bool init false; // human moving (lock for agent movement)\
-	totClock: [0..100] init 0;
+	totClock: [0..10] init 0;
 
 	// time passage
 //	[time] clock_h>1 -> true; // if agent is moving
 //	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
-	[time] move_h = true & totClock<100 -> 0.9:(move_h'=false) & (totClock'=totClock+1) + 0.1:(move_h'=true) & (totClock'=totClock+1);
+	[time] move_h = true & totClock<10 -> 0.9:(move_h'=false) & (totClock'=totClock+1) + 0.1:(move_h'=true) & (totClock'=totClock+1);
 
 	// human stays at the same site
 //	[] clock_h=0 & !move_h -> (clock_h'=1);
-	[time] move_h = false & totClock<100 -> true & (totClock'=totClock+1);
+	[time] move_h = false & totClock<10 -> true;
 
 	// human movement between sites
 	[human_0_1] h=site0 & !move_h -> (h'=site1) & (move_h'=true);
@@ -79,7 +79,7 @@ module site_one
 	[] s1=state3 & (h=site1 & !move_h) & g!=site1						-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
 	[] s1=state4										-> true; // self-loop
 	
-	[] totClock>99 -> s1'=state4
+	[] totClock>9 -> (s1'=state4);
 endmodule 
 
 // duplicate site modules
