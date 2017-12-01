@@ -2,7 +2,7 @@ PRISM
 =====
 
 Version: 4.4.beta
-Date: Wed Nov 29 21:05:19 EST 2017
+Date: Fri Dec 01 14:15:56 EST 2017
 Hostname: klyu
 Memory limits: cudd=1g, java(heap)=910.5m
 Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
@@ -13,25 +13,23 @@ Parsing model file "4VA_timer_new.pm"...
 (1) Rmin=? [ F "done" ]
 
 Type:        MDP
-Modules:     human uav ugv site_one site_two 
-Variables:   h move_h totClock a move_a totClock1 g move_g totClock2 s1 s2 
+Modules:     timer human uav ugv site_one site_two 
+Variables:   totClock h move_h a move_a g move_g s1 s2 
 
 Building model...
 
 Computing reachable states...
 
-Reachability (BFS): 19 iterations in 0.08 seconds (average 0.004421, setup 0.00)
+Reachability (BFS): 1009 iterations in 0.14 seconds (average 0.000135, setup 0.00)
 
-Time for model construction: 0.151 seconds.
-
-Warning: Deadlocks detected and fixed in 84912 states
+Time for model construction: 0.638 seconds.
 
 Type:        MDP
-States:      5952768 (1 initial)
-Transitions: 41789987
-Choices:     27027654
+States:      5398915 (1 initial)
+Transitions: 41763804
+Choices:     25383731
 
-Transition matrix: 8703 nodes (13 terminal), 41789987 minterms, vars: 27r/27c/21nd
+Transition matrix: 4048 nodes (13 terminal), 41763804 minterms, vars: 25r/25c/21nd
 
 Exporting list of reachable states in plain text format to file "states.txt"...
 
@@ -42,41 +40,41 @@ Switching engine since only sparse engine currently supports this computation...
 
 Warning: Disabling Prob1 since this is needed for adversary generation
 
-Prob0A: 14 iterations in 0.21 seconds (average 0.014857, setup 0.00)
+Prob0A: 10 iterations in 0.02 seconds (average 0.002000, setup 0.00)
 
-Prob1E: 165 iterations in 5.02 seconds (average 0.030448, setup 0.00)
+Prob1E: 11 iterations in 0.01 seconds (average 0.000727, setup 0.00)
 
 Warning: PRISM hasn't checked for zero-reward loops.
 Your minimum rewards may be too low...
 
-goal = 238051, inf = 2496888, maybe = 3217829
+goal = 215944, inf = 0, maybe = 5182971
 
 Computing remaining rewards...
 Engine: Sparse
 
-Building sparse matrix (transitions)... [n=5952768, nc=16611525, nnz=24204086, k=10] [363.1 MB]
-Building action information... [22.7 MB]
-Building sparse matrix (transition rewards)... [n=5952768, nc=16611525, nnz=7838928, k=10] [175.8 MB]
-Creating vector for state rewards... [45.4 MB]
-Creating vector for inf... [45.4 MB]
-Allocating iteration vectors... [2 x 45.4 MB]
-Allocating adversary vector... [22.7 MB]
-TOTAL: [765.9 MB]
+Building sparse matrix (transitions)... [n=5398915, nc=24088121, nnz=39955784, k=9] [569.7 MB]
+Building action information... [20.6 MB]
+Building sparse matrix (transition rewards)... [n=5398915, nc=24088121, nnz=17476122, k=9] [312.5 MB]
+Creating vector for state rewards... [41.2 MB]
+Creating vector for inf... [41.2 MB]
+Allocating iteration vectors... [2 x 41.2 MB]
+Allocating adversary vector... [20.6 MB]
+TOTAL: [1.1 GB]
 
 Starting iterations...
-Iteration 31: max relative diff=0.029695, 5.05 sec so far
+Iteration 21: max relative diff=0.000647, 5.02 sec so far
 
-Iterative method: 51 iterations in 16.50 seconds (average 0.219608, setup 5.30)
+Iterative method: 32 iterations in 20.67 seconds (average 0.398750, setup 7.91)
 
 Adversary written to file "policy.txt".
 
-Value in the initial state: 1.1291132184980457
+Value in the initial state: 1.1053462347735503
 
-Time for model checking: 23.301 seconds.
+Time for model checking: 20.901 seconds.
 
-Result: 1.1291132184980457 (value in the initial state)
+Result: 1.1053462347735503 (value in the initial state)
 
 ---------------------------------------------------------------------
 
-Note: There were 3 warnings during computation.
+Note: There were 2 warnings during computation.
 

@@ -31,21 +31,25 @@ const int state2 = 2; // human
 const int state3 = 3; // fire+human
 const int state4 = 4; // nuteral
 
+// TIMER INFORMATION
+const int totClock_max = 1000;
+
+module timer
+	totClock: [0..totClock_max] init 0;
+
+	[time] totClock<totClock_max -> (totClock'=totClock+1);
+endmodule
+
 // main agent module
 module human
 	h: [0..N] init 0; // position of human (which site the agent is at)
-//	clock_h: [0..Ch_MAX] init 0; // clock of human (transition time needed for the agent)
-	move_h: bool init false; // human moving (lock for agent movement)\
-	totClock: [0..10] init 0;
+	move_h: bool init false; // human moving (lock for agent movement)
 
 	// time passage
-//	[time] clock_h>1 -> true; // if agent is moving
-//	[time] clock_h=1 -> (clock_h'=0) & (move_h'=false); // agent has stopped moving
-	[time] move_h = true & totClock<10 -> 0.9:(move_h'=false) & (totClock'=totClock+1) + 0.1:(move_h'=true) & (totClock'=totClock+1);
+	[time] move_h = true & totClock<totClock_max -> 0.9:(move_h'=false) + 0.1:(move_h'=true);
 
 	// human stays at the same site
-//	[] clock_h=0 & !move_h -> (clock_h'=1);
-	[time] move_h = false & totClock<10 -> true;
+	[time] move_h = false & totClock<totClock_max -> true;
 
 	// human movement between sites
 	[human_0_1] h=site0 & !move_h -> (h'=site1) & (move_h'=true);
@@ -57,13 +61,13 @@ module human
 endmodule
 
 // uav agent
-module uav = human [h=a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa, totClock=totClock1, 
+module uav = human [h=a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa,
 			human_0_1=uav_0_1, human_0_2=uav_0_2, human_1_0=uav_1_0, human_1_2=uav_1_2,
 			human_2_0=uav_2_0, human_2_1=uav_2_1]
 endmodule
 
 // ugv agent
-module ugv = human [h=g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg, totClock=totClock2,
+module ugv = human [h=g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg,
 			human_0_1=ugv_0_1, human_0_2=ugv_0_2, human_1_0=ugv_1_0, human_1_2=ugv_1_2,
 			human_2_0=ugv_2_0, human_2_1=ugv_2_1]
 endmodule
@@ -79,7 +83,7 @@ module site_one
 	[] s1=state3 & (h=site1 & !move_h) & g!=site1						-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
 	[] s1=state4										-> true; // self-loop
 	
-	[] totClock>9 -> (s1'=state4);
+	[end] totClock>totClock_max-1 -> (s1'=state4);
 endmodule 
 
 // duplicate site modules
