@@ -2,91 +2,58 @@ PRISM
 =====
 
 Version: 4.4.beta
-Date: Wed Nov 29 18:05:53 EST 2017
+Date: Fri Dec 01 15:44:33 EST 2017
 Hostname: klyu
 Memory limits: cudd=1g, java(heap)=910.5m
-Command line: prism 4VA_multiReward.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
+Command line: prism 4VA_multiReward.pm -pctl 'multi(R{"time"}min=? [C], R{"valuables"}max=?[C])' -exportadv policy.txt -s -exportstates states.txt -m
 
 Parsing model file "4VA_multiReward.pm"...
 
 1 property:
-(1) Rmin=? [ F "done" ]
+(1) multi(R{"time"}min=? [ C ], R{"valuables"}max=? [ C ])
 
 Type:        MDP
-Modules:     human uav ugv site_one site_two 
-Variables:   h clock_h move_h totClock a clock_a move_a totClock1 g clock_g move_g totClock2 s1 s1_finished s2 s2_finished 
+Modules:     timer human uav ugv site_one site_two 
+Variables:   totClock h clock_h move_h a clock_a move_a g clock_g move_g s1 s1_finished s2 s2_finished 
 
 Building model...
 
 Computing reachable states...
 
-Reachability (BFS): 162 iterations in 2.41 seconds (average 0.014864, setup 0.00)
+Reachability (BFS): 40 iterations in 0.10 seconds (average 0.002600, setup 0.00)
 
-Time for model construction: 3.033 seconds.
+Time for model construction: 0.16 seconds.
 
-Warning: Deadlocks detected and fixed in 183626 states
+Warning: Deadlocks detected and fixed in 151838 states
 
 Type:        MDP
-States:      62092983 (1 initial)
-Transitions: 172972716
-Choices:     157057196
+States:      2048439 (1 initial)
+Transitions: 5616960
+Choices:     5059904
 
-Transition matrix: 152533 nodes (4 terminal), 172972716 minterms, vars: 53r/53c/23nd
+Transition matrix: 19354 nodes (4 terminal), 5616960 minterms, vars: 36r/36c/23nd
 
 Exporting list of reachable states in plain text format to file "states.txt"...
 
 ---------------------------------------------------------------------
 
-Model checking: Rmin=? [ F "done" ]
+Model checking: multi(R{"time"}min=? [ C ], R{"valuables"}max=? [ C ])
 Switching engine since only sparse engine currently supports this computation...
 
 Warning: Disabling Prob1 since this is needed for adversary generation
+Total time for product construction: 0.0 seconds.
 
-Prob0A: 56 iterations in 126.04 seconds (average 2.250786, setup 0.00)
+States:      2048439 (1 initial)
+Transitions: 5616960
+Choices:     5059904
 
-Prob1E: 171 iterations in 402.52 seconds (average 2.353942, setup 0.00)
+Transition matrix: 19354 nodes (4 terminal), 5616960 minterms, vars: 36r/36c/23nd
 
-Warning: PRISM hasn't checked for zero-reward loops.
-Your minimum rewards may be too low...
+Error: Cannot use multi-objective model checking with maximising objectives and non-zero reward end compoments.
 
-goal = 6888644, inf = 9997003, maybe = 45207336
-
-Computing remaining rewards...
-Engine: Sparse
-
-Building sparse matrix (transitions)... [n=62092983, nc=109381582, nnz=122413224, k=11] [2.0 GB]
-Building action information... [236.9 MB]
-Building sparse matrix (transition rewards)... [n=62092983, nc=109381582, nnz=30489346, k=11] [1003.0 MB]
-Creating vector for state rewards... [473.7 MB]
-Creating vector for inf... [473.7 MB]
-Allocating iteration vectors... [2 x 473.7 MB]
-Allocating adversary vector... [236.9 MB]
-TOTAL: [5.3 GB]
-
-Starting iterations...
-Iteration 6: max relative diff=1.000000, 6.00 sec so far
-Iteration 12: max relative diff=0.333333, 11.98 sec so far
-Iteration 18: max relative diff=0.250000, 17.96 sec so far
-Iteration 23: max relative diff=0.166667, 22.97 sec so far
-Iteration 29: max relative diff=0.142857, 28.94 sec so far
-Iteration 35: max relative diff=0.111111, 34.92 sec so far
-Iteration 41: max relative diff=0.090909, 40.89 sec so far
-Iteration 47: max relative diff=0.076923, 46.88 sec so far
-Iteration 53: max relative diff=0.066667, 52.86 sec so far
-Iteration 59: max relative diff=0.001043, 58.84 sec so far
-Iteration 65: max relative diff=0.000016, 64.82 sec so far
-
-Iterative method: 70 iterations in 134.58 seconds (average 1.275029, setup 45.32)
-
-Adversary written to file "policy.txt".
-
-Value in the initial state: 4.875
-
-Time for model checking: 674.986 seconds.
-
-Result: 4.875 (value in the initial state)
+Warning: CUDD reports 15026 non-zero references.
 
 ---------------------------------------------------------------------
 
-Note: There were 3 warnings during computation.
+Note: There were 2 warnings during computation.
 
