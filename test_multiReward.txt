@@ -2,15 +2,15 @@ PRISM
 =====
 
 Version: 4.4.beta
-Date: Fri Dec 01 15:44:33 EST 2017
+Date: Mon Dec 04 01:00:12 EST 2017
 Hostname: klyu
 Memory limits: cudd=1g, java(heap)=910.5m
-Command line: prism 4VA_multiReward.pm -pctl 'multi(R{"time"}min=? [C], R{"valuables"}max=?[C])' -exportadv policy.txt -s -exportstates states.txt -m
+Command line: prism 4VA_multiReward.pm -pctl 'multi(R{"time"}min=? [C<=totClock_max], R{"valuables"}max=?[C])' -exportadv policy.txt -s -exportstates states.txt -s
 
 Parsing model file "4VA_multiReward.pm"...
 
 1 property:
-(1) multi(R{"time"}min=? [ C ], R{"valuables"}max=? [ C ])
+(1) multi(R{"time"}min=? [ C<=totClock_max ], R{"valuables"}max=? [ C ])
 
 Type:        MDP
 Modules:     timer human uav ugv site_one site_two 
@@ -22,7 +22,7 @@ Computing reachable states...
 
 Reachability (BFS): 40 iterations in 0.10 seconds (average 0.002600, setup 0.00)
 
-Time for model construction: 0.16 seconds.
+Time for model construction: 0.168 seconds.
 
 Warning: Deadlocks detected and fixed in 151838 states
 
@@ -37,8 +37,7 @@ Exporting list of reachable states in plain text format to file "states.txt"...
 
 ---------------------------------------------------------------------
 
-Model checking: multi(R{"time"}min=? [ C ], R{"valuables"}max=? [ C ])
-Switching engine since only sparse engine currently supports this computation...
+Model checking: multi(R{"time"}min=? [ C<=totClock_max ], R{"valuables"}max=? [ C ])
 
 Warning: Disabling Prob1 since this is needed for adversary generation
 Total time for product construction: 0.0 seconds.
@@ -51,7 +50,7 @@ Transition matrix: 19354 nodes (4 terminal), 5616960 minterms, vars: 36r/36c/23n
 
 Error: Cannot use multi-objective model checking with maximising objectives and non-zero reward end compoments.
 
-Warning: CUDD reports 15026 non-zero references.
+Warning: CUDD reports 19005 non-zero references.
 
 ---------------------------------------------------------------------
 

@@ -109,8 +109,10 @@ rewards "time"
 endrewards
 
 rewards "valuables"
-	[] s1 = 4 & s1_finished = true: 1; //((decay1*totClock)+valuables1_MAX);
-	[] s2 = 4 & s2_finished = true: 1; //((decay2*totClock)+valuables2_MAX);
+	[] s1_finished = true & -(decay1*totClock) < valuables1_MAX: ((decay1*totClock)+valuables1_MAX); 
+	[] s2_finished = true & -(decay2*totClock) < valuables2_MAX: ((decay2*totClock)+valuables2_MAX);
+	[] s1_finished = true & -(decay1*totClock) > valuables1_MAX-1: 0; // if the decay is more than the total number of valuables
+	[] s2_finished = true & -(decay2*totClock) > valuables2_MAX-1: 0; // if the decay is more than the total number of valuables
 endrewards
 
 // finish state
