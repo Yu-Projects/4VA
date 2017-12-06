@@ -1,0 +1,79 @@
+PRISM
+=====
+
+Version: 4.4.beta
+Date: Wed Dec 06 11:52:37 EST 2017
+Hostname: klyu
+Memory limits: cudd=1g, java(heap)=910.5m
+Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
+
+Parsing model file "4VA_timer_new.pm"...
+
+1 property:
+(1) Rmin=? [ F "done" ]
+
+Type:        MDP
+Modules:     timer human uav ugv site_one site_two 
+Variables:   totClock h move_h a move_a g move_g s1 s2 
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 59 iterations in 0.01 seconds (average 0.000203, setup 0.00)
+
+Time for model construction: 0.037 seconds.
+
+Type:        MDP
+States:      268915 (1 initial)
+Transitions: 2068054
+Choices:     1263231
+
+Transition matrix: 3448 nodes (13 terminal), 2068054 minterms, vars: 21r/21c/21nd
+
+Exporting list of reachable states in plain text format to file "states.txt"...
+
+---------------------------------------------------------------------
+
+Model checking: Rmin=? [ F "done" ]
+Switching engine since only sparse engine currently supports this computation...
+
+Warning: Disabling Prob1 since this is needed for adversary generation
+
+Prob0A: 10 iterations in 0.02 seconds (average 0.001600, setup 0.00)
+
+Prob1E: 11 iterations in 0.01 seconds (average 0.000727, setup 0.00)
+
+Warning: PRISM hasn't checked for zero-reward loops.
+Your minimum rewards may be too low...
+
+goal = 10744, inf = 0, maybe = 258171
+
+Computing remaining rewards...
+Engine: Sparse
+
+Building sparse matrix (transitions)... [n=268915, nc=1198821, nnz=1978584, k=9] [28.2 MB]
+Building action information... [1.0 MB]
+Building sparse matrix (transition rewards)... [n=268915, nc=1198821, nnz=854922, k=9] [15.4 MB]
+Creating vector for state rewards... [2.1 MB]
+Creating vector for inf... [2.1 MB]
+Allocating iteration vectors... [2 x 2.1 MB]
+Allocating adversary vector... [1.0 MB]
+TOTAL: [53.9 MB]
+
+Starting iterations...
+
+Iterative method: 32 iterations in 1.02 seconds (average 0.019250, setup 0.40)
+
+Adversary written to file "policy.txt".
+
+Value in the initial state: 1.1053462347735503
+
+Time for model checking: 1.059 seconds.
+
+Result: 1.1053462347735503 (value in the initial state)
+
+---------------------------------------------------------------------
+
+Note: There were 2 warnings during computation.
+

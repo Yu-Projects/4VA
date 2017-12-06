@@ -1,0 +1,61 @@
+PRISM
+=====
+
+Version: 4.4.beta
+Date: Wed Dec 06 01:50:03 EST 2017
+Hostname: klyu
+Memory limits: cudd=1g, java(heap)=910.5m
+Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
+
+Parsing model file "4VA_timer_new.pm"...
+
+1 property:
+(1) Rmin=? [ F "done" ]
+
+Type:        MDP
+Modules:     timer human uav ugv site_one site_two site_three site_four site_five 
+Variables:   totClock h move_h a move_a g move_g s1 s2 s3 s4 s5 
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 64 iterations in 0.25 seconds (average 0.003938, setup 0.00)
+
+Time for model construction: 0.506 seconds.
+
+Type:        MDP
+States:      265147128 (1 initial)
+Transitions: 3469948315
+Choices:     2621604718
+
+Transition matrix: 59425 nodes (13 terminal), 3469948315 minterms, vars: 33r/33c/96nd
+
+Exporting list of reachable states in plain text format to file "states.txt"...
+
+---------------------------------------------------------------------
+
+Model checking: Rmin=? [ F "done" ]
+Switching engine since only sparse engine currently supports this computation...
+
+Warning: Disabling Prob1 since this is needed for adversary generation
+
+Prob0A: 22 iterations in 5.20 seconds (average 0.236182, setup 0.00)
+
+Prob1E: 23 iterations in 5.29 seconds (average 0.229913, setup 0.00)
+
+Warning: PRISM hasn't checked for zero-reward loops.
+Your minimum rewards may be too low...
+
+goal = 84618, inf = 0, maybe = 265062510
+
+Computing remaining rewards...
+Engine: Sparse
+
+Building sparse matrix (transitions)... 
+Error: Out of memory.
+
+---------------------------------------------------------------------
+
+Note: There were 2 warnings during computation.
+

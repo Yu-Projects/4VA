@@ -1,0 +1,90 @@
+PRISM
+=====
+
+Version: 4.4.beta
+Date: Wed Dec 06 01:04:37 EST 2017
+Hostname: klyu
+Memory limits: cudd=1g, java(heap)=910.5m
+Command line: prism 4VA_timer_new.pm -pctl 'Rmin=? [F "done"]' -exportadv policy.txt -s -exportstates states.txt -m
+
+Parsing model file "4VA_timer_new.pm"...
+
+1 property:
+(1) Rmin=? [ F "done" ]
+
+Type:        MDP
+Modules:     timer human uav ugv site_one site_two site_three site_four 
+Variables:   totClock h move_h a move_a g move_g s1 s2 s3 s4 
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 62 iterations in 0.09 seconds (average 0.001484, setup 0.00)
+
+Time for model construction: 0.225 seconds.
+
+Type:        MDP
+States:      30810877 (1 initial)
+Transitions: 348868360
+Choices:     251544493
+
+Transition matrix: 27470 nodes (13 terminal), 348868360 minterms, vars: 30r/30c/65nd
+
+Exporting list of reachable states in plain text format to file "states.txt"...
+
+---------------------------------------------------------------------
+
+Model checking: Rmin=? [ F "done" ]
+Switching engine since only sparse engine currently supports this computation...
+
+Warning: Disabling Prob1 since this is needed for adversary generation
+
+Prob0A: 18 iterations in 1.31 seconds (average 0.072667, setup 0.00)
+
+Prob1E: 19 iterations in 1.48 seconds (average 0.077684, setup 0.00)
+
+Warning: PRISM hasn't checked for zero-reward loops.
+Your minimum rewards may be too low...
+
+goal = 48999, inf = 0, maybe = 30761878
+
+Computing remaining rewards...
+Engine: Sparse
+
+Building sparse matrix (transitions)... [n=30810877, nc=251005510, nnz=348215377, k=17] [4.9 GB]
+Building action information... [117.5 MB]
+Building sparse matrix (transition rewards)... [n=30810877, nc=251005510, nnz=101912185, k=17] [2.2 GB]
+Creating vector for state rewards... [235.1 MB]
+Creating vector for inf... [235.1 MB]
+Allocating iteration vectors... [2 x 235.1 MB]
+Allocating adversary vector... [117.5 MB]
+TOTAL: [8.3 GB]
+
+Starting iterations...
+Iteration 3: max relative diff=1.000000, 5.53 sec so far
+Iteration 6: max relative diff=1.000000, 11.10 sec so far
+Iteration 9: max relative diff=0.364853, 16.69 sec so far
+Iteration 12: max relative diff=0.081372, 22.27 sec so far
+Iteration 15: max relative diff=0.028498, 27.82 sec so far
+Iteration 18: max relative diff=0.008866, 33.40 sec so far
+Iteration 21: max relative diff=0.001883, 38.98 sec so far
+Iteration 24: max relative diff=0.000412, 44.55 sec so far
+Iteration 27: max relative diff=0.000082, 50.12 sec so far
+Iteration 30: max relative diff=0.000014, 55.69 sec so far
+Iteration 33: max relative diff=0.000002, 61.26 sec so far
+
+Iterative method: 35 iterations in 156.90 seconds (average 2.551200, setup 67.61)
+
+Adversary written to file "policy.txt".
+
+Value in the initial state: 1.1027539867091967
+
+Time for model checking: 173.175 seconds.
+
+Result: 1.1027539867091967 (value in the initial state)
+
+---------------------------------------------------------------------
+
+Note: There were 2 warnings during computation.
+
