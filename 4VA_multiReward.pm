@@ -33,11 +33,11 @@ const int valuables1_MAX = 1000;
 const int valuables2_MAX = 500;
 
 //DECAYS
-const int decay1 = -1;
-const int decay2 = -2;
+const int decay1 = 1;
+const int decay2 = 2;
 
 // GLOBAL CLOCK
-const int totClock_max = 10;
+const int totClock_max = 50;
 
 module timer
 	totClock: [0..totClock_max] init 0;
@@ -53,21 +53,21 @@ module human
 //	totClock: [0..100] init 0;
 
 	// time passage
-	[time] clock_h>1 & totClock<totClock_max-> (clock_h'=clock_h-1); // if agent is moving
-	[time] clock_h=1 & totClock<totClock_max-> (clock_h'=0) & (move_h'=false); // agent has stopped moving
+	[time] clock_h>1 	& totClock<totClock_max-> (clock_h'=clock_h-1); // if agent is moving
+	[time] clock_h=1 	& totClock<totClock_max-> (clock_h'=0) & (move_h'=false); // agent has stopped moving
 
 	// human stays at the same site
-	[] clock_h=0 & !move_h -> (clock_h'=1);
+	[] clock_h=0 & !move_h 	& totClock<totClock_max -> (clock_h'=1);
 
 	// human movement between sites
-	[human_0_1] h=site0 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
-	[human_0_2] h=site0 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D02*Sh) & (move_h'=true);
+	[human_0_1] h=site0 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site1) & (clock_h'=D01*Sh) & (move_h'=true);
+	[human_0_2] h=site0 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site2) & (clock_h'=D02*Sh) & (move_h'=true);
 
-	[human_1_0] h=site1 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D01*Sh) & (move_h'=true);
-	[human_1_2] h=site1 & clock_h=0 & !move_h -> (h'=site2) & (clock_h'=D12*Sh) & (move_h'=true);
+	[human_1_0] h=site1 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site0) & (clock_h'=D01*Sh) & (move_h'=true);
+	[human_1_2] h=site1 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site2) & (clock_h'=D12*Sh) & (move_h'=true);
 
-	[human_2_0] h=site2 & clock_h=0 & !move_h -> (h'=site0) & (clock_h'=D02*Sh) & (move_h'=true);
-	[human_2_1] h=site2 & clock_h=0 & !move_h -> (h'=site1) & (clock_h'=D12*Sh) & (move_h'=true);
+	[human_2_0] h=site2 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site0) & (clock_h'=D02*Sh) & (move_h'=true);
+	[human_2_1] h=site2 & clock_h=0 & !move_h 	& totClock<totClock_max -> (h'=site1) & (clock_h'=D12*Sh) & (move_h'=true);
 endmodule
 
 // uav agent
@@ -92,27 +92,34 @@ module site_one
 //	valuables1: [0..valuables1_MAX] init 0;
 	s1_finished: bool init false;
 
-	[] s1=state0 & ((h=site1 & !move_h) | (a=site1 & !move_a) | (g=site1 & !move_g))	-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4) & (s1_finished' = true);
-	[] s1=state1 & (h=site1 & !move_h)  & (g=site1 & !move_g)				-> 0.50:(s1'=state1) + 0.50:(s1'=state4) & (s1_finished' = true);
-	[] s1=state2 & (h=site1 & !move_h)							-> 0.50:(s1'=state2) + 0.50:(s1'=state4) & (s1_finished' = true);
-	[] s1=state3 & (h=site1 & !move_h) & (g=site1 & !move_g)				-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4) & (s1_finished' = true);
-	[] s1=state3 & (h=site1 & !move_h) & g!=site1						-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
-	[] s1=state4										-> (s1' = state4) & (s1_finished' = false); // self-loop
+	[] s1=state0 & ((h=site1 & !move_h) | (a=site1 & !move_a) | (g=site1 & !move_g))	& totClock<totClock_max	-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4) & (s1_finished' = true);
+	[] s1=state1 & (h=site1 & !move_h)  & (g=site1 & !move_g) 				& totClock<totClock_max	-> 0.50:(s1'=state1) + 0.50:(s1'=state4) & (s1_finished' = true);
+	[] s1=state2 & (h=site1 & !move_h) 							& totClock<totClock_max	-> 0.50:(s1'=state2) + 0.50:(s1'=state4) & (s1_finished' = true);
+	[] s1=state3 & (h=site1 & !move_h) & (g=site1 & !move_g) 				& totClock<totClock_max	-> 0.25:(s1'=state1) + 0.25:(s1'=state2) + 0.25:(s1'=state3) + 0.25:(s1'=state4) & (s1_finished' = true);
+	[] s1=state3 & (h=site1 & !move_h) & g!=site1 						& totClock<totClock_max	-> 0.50:(s1'=state1) + 0.50:(s1'=state3);
+	[] s1=state4 										& totClock<totClock_max	-> (s1' = state4); // self-loop
 endmodule
 
 // duplicate site modules
 module site_two = site_one[s1=s2, site1=site2, valuables1 = valuables2, valuables1_MAX = valuables2_MAX, s1_finished = s2_finished] endmodule
 
 // counter for time
-rewards "time"
-	[time]true : 1;
-endrewards
+//rewards "time"
+//	[time]true : 1;
+//endrewards
 
 rewards "valuables"
-	[] s1_finished = true & -(decay1*totClock) < valuables1_MAX: ((decay1*totClock)+valuables1_MAX); 
-	[] s2_finished = true & -(decay2*totClock) < valuables2_MAX: ((decay2*totClock)+valuables2_MAX);
-	[] s1_finished = true & -(decay1*totClock) > valuables1_MAX-1: 0; // if the decay is more than the total number of valuables
-	[] s2_finished = true & -(decay2*totClock) > valuables2_MAX-1: 0; // if the decay is more than the total number of valuables
+	[time] s1_finished=false: decay1;
+	[time] s2_finished=false: decay2;
+//	[] s1_finished = true & -(decay1*totClock) < valuables1_MAX: ((decay1*totClock)+valuables1_MAX); 
+//	[] s2_finished = true & -(decay2*totClock) < valuables2_MAX: ((decay2*totClock)+valuables2_MAX);
+//	[] s1_finished = true & -(decay1*totClock) > valuables1_MAX-1: 0; // if the decay is more than the total number of valuables
+//	[] s2_finished = true & -(decay2*totClock) > valuables2_MAX-1: 0; // if the decay is more than the total number of valuables
+endrewards
+
+rewards "visited"
+	[time] totClock=totClock_max & s1=state4: 1;
+	[time] totClock=totClock_max & s2=state4: 1;
 endrewards
 
 // finish state

@@ -2,15 +2,15 @@ PRISM
 =====
 
 Version: 4.4.beta
-Date: Mon Dec 04 01:00:12 EST 2017
+Date: Wed Dec 13 00:13:00 EST 2017
 Hostname: klyu
 Memory limits: cudd=1g, java(heap)=910.5m
-Command line: prism 4VA_multiReward.pm -pctl 'multi(R{"time"}min=? [C<=totClock_max], R{"valuables"}max=?[C])' -exportadv policy.txt -s -exportstates states.txt -s
+Command line: prism 4VA_multiReward.pm -pctl 'multi(R{"visited"}max=? [C], R{"valuables"}min=?[C])' -exportadv policy.txt -s -exportstates states.txt -s
 
 Parsing model file "4VA_multiReward.pm"...
 
 1 property:
-(1) multi(R{"time"}min=? [ C<=totClock_max ], R{"valuables"}max=? [ C ])
+(1) multi(R{"visited"}max=? [ C ], R{"valuables"}min=? [ C ])
 
 Type:        MDP
 Modules:     timer human uav ugv site_one site_two 
@@ -20,37 +20,62 @@ Building model...
 
 Computing reachable states...
 
-Reachability (BFS): 40 iterations in 0.10 seconds (average 0.002600, setup 0.00)
+Reachability (BFS): 86 iterations in 0.40 seconds (average 0.004698, setup 0.00)
 
-Time for model construction: 0.168 seconds.
+Time for model construction: 0.483 seconds.
 
-Warning: Deadlocks detected and fixed in 151838 states
+Warning: Deadlocks detected and fixed in 199650 states
 
 Type:        MDP
-States:      2048439 (1 initial)
-Transitions: 5616960
-Choices:     5059904
+States:      19663582 (1 initial)
+Transitions: 50790837
+Choices:     44787477
 
-Transition matrix: 19354 nodes (4 terminal), 5616960 minterms, vars: 36r/36c/23nd
+Transition matrix: 20083 nodes (4 terminal), 50790837 minterms, vars: 38r/38c/23nd
 
 Exporting list of reachable states in plain text format to file "states.txt"...
 
 ---------------------------------------------------------------------
 
-Model checking: multi(R{"time"}min=? [ C<=totClock_max ], R{"valuables"}max=? [ C ])
+Model checking: multi(R{"visited"}max=? [ C ], R{"valuables"}min=? [ C ])
 
 Warning: Disabling Prob1 since this is needed for adversary generation
 Total time for product construction: 0.0 seconds.
 
-States:      2048439 (1 initial)
-Transitions: 5616960
-Choices:     5059904
+States:      19663582 (1 initial)
+Transitions: 50790837
+Choices:     44787477
 
-Transition matrix: 19354 nodes (4 terminal), 5616960 minterms, vars: 36r/36c/23nd
+Transition matrix: 20083 nodes (4 terminal), 50790837 minterms, vars: 38r/38c/23nd
 
-Error: Cannot use multi-objective model checking with maximising objectives and non-zero reward end compoments.
+Prob0A: 1 iterations in 0.00 seconds (average 0.004000, setup 0.00)
 
-Warning: CUDD reports 19005 non-zero references.
+yes = 0, no = 0, maybe = 19663582
+
+Computing remaining probabilities...
+Engine: Sparse
+Optimising weighted sum for reward objective 1/2: weights (1.0, 0.0)
+Iterative method: 70 iterations in 70.28 seconds (average 1.002343, setup 0.12)
+Optimal value for weights [1.000000,0.000000] from initial state: 0.000000
+Computed point: (0.0, -14.625)
+Optimising weighted sum for reward objective 2/2: weights (0.0, 1.0)
+Iterative method: 71 iterations in 71.51 seconds (average 1.005634, setup 0.11)
+Optimal value for weights [0.000000,1.000000] from initial state: -14.625000
+Computed point: (0.0, -14.625)
+Optimising weighted sum of objectives: weights (1.0, 0.0)
+Iterative method: 70 iterations in 79.10 seconds (average 1.128286, setup 0.12)
+Optimal value for weights [1.000000,0.000000] from initial state: 0.000000
+
+Adversary written to file "policy1.txt".
+The value iteration(s) took 244.541 seconds altogether.
+Number of weight vectors used: 3
+Multi-objective value iterations took 244.541 s.
+
+Value in the initial state: [(0.0, 14.625)]
+
+Time for model checking: 21533.587 seconds.
+
+Result: [(0.0, 14.625)] (value in the initial state)
 
 ---------------------------------------------------------------------
 
