@@ -108,7 +108,7 @@ module site_two = site_one[s1=s2, site1=site2, valuables1 = valuables2, valuable
 //	[time]true : 1;
 //endrewards
 
-rewards "valuables"
+rewards "damage_done"
 	[time] s1_finished=false: decay1;
 	[time] s2_finished=false: decay2;
 //	[] s1_finished = true & -(decay1*totClock) < valuables1_MAX: ((decay1*totClock)+valuables1_MAX); 
