@@ -1,2 +1,0 @@
-multi(R{"visited"}max=? [C<=totClock_max], R{"valuables"}min=?[C<=totClock_max])
-
