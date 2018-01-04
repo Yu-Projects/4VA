@@ -564,7 +564,7 @@ endmodule
 
 // duplicate site modules
 module site_0 = site_one[s1=s0, site1=site0] endmodule
-module site_1 = site_one[s1=s1, site1=site1] endmodule
+//module site_1 = site_one[s1=s1, site1=site1] endmodule
 module site_2 = site_one[s1=s2, site1=site2] endmodule
 module site_3 = site_one[s1=s3, site1=site3] endmodule
 module site_4 = site_one[s1=s4, site1=site4] endmodule
