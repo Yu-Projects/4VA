@@ -1,9 +1,37 @@
 mdp
 // working on trying to lower the state space
 // adding random speed for all; based on probability instead.
- 
+
+// DISTANCE CONSTANTS
+const int D01 = 2; // distance between site0 and site1
+const int D02 = 3; // distance between site0 and site2
+const int D03 = 4;
+const int D04 = 2;
+const int D05 = 2;
+const int D06 = 3;
+
+const int D12 = 4; // distance between site1 and site2
+const int D13=3;
+const int D14=3;
+const int D15=2;
+const int D16=4;
+
+const int D23=4;
+const int D24=2;
+const int D25=3;
+const int D26=2;
+
+const int D34=2;
+const int D35=3;
+const int D36=4;
+
+const int D45=4;
+const int D46=3;
+
+const int D56=2;
+
 // SITES
-const int N = 20; // number of sites
+const int N = 2; // number of sites
 const int site0 = 0;
 const int site1 = 1;
 const int site2 = 2;
@@ -26,6 +54,17 @@ const int site18 = 18;
 const int site19 = 19;
 const int site20 = 20;
 
+// TIMING CONSTANTS
+const int Ch_MAX = 100; // max vlaue of clock_h
+const int Ca_MAX = 100; // max vlaue of clock_a
+const int Cg_MAX = 100; // max vlaue of clock_g
+//global totTime: int init 0;
+
+// SPEED CONSTANTS
+const int Sh = 3; // human travel speed (time/distance)
+const int Sa = 1; // UVA travel speed (time/distance)
+const int Sg = 2; // UGV travel speed (time/distance)
+
 // SITE INFORMATION
 const int state0 = 0; // unknown
 const int state1 = 1; // fire
@@ -34,7 +73,7 @@ const int state3 = 3; // fire+human
 const int state4 = 4; // nuteral
 
 // TIMER INFORMATION
-const int totClock_max = 200;
+const int totClock_max = 50;
 
 module timer
 	totClock: [0..totClock_max] init 0;
@@ -498,7 +537,7 @@ module human
 endmodule
 
 // uav agent
-module uav = human [h=a, move_h=move_a,
+module uav = human [h=a, move_h=move_a, Ch_MAX=Ca_MAX, Sh=Sa,
 human_0_0=uav_0_0, human_0_1=uav_0_1, human_0_2=uav_0_2, human_0_3=uav_0_3, human_0_4=uav_0_4, human_0_5=uav_0_5, human_0_6=uav_0_6, human_0_7=uav_0_7, human_0_8=uav_0_8, human_0_9=uav_0_9, human_0_10=uav_0_10, human_0_11=uav_0_11, human_0_12=uav_0_12, human_0_13=uav_0_13, human_0_14=uav_0_14, human_0_15=uav_0_15, human_0_16=uav_0_16, human_0_17=uav_0_17, human_0_18=uav_0_18, human_0_19=uav_0_19, human_0_20=uav_0_20, 
 human_1_0=uav_1_0, human_1_1=uav_1_1, human_1_2=uav_1_2, human_1_3=uav_1_3, human_1_4=uav_1_4, human_1_5=uav_1_5, human_1_6=uav_1_6, human_1_7=uav_1_7, human_1_8=uav_1_8, human_1_9=uav_1_9, human_1_10=uav_1_10, human_1_11=uav_1_11, human_1_12=uav_1_12, human_1_13=uav_1_13, human_1_14=uav_1_14, human_1_15=uav_1_15, human_1_16=uav_1_16, human_1_17=uav_1_17, human_1_18=uav_1_18, human_1_19=uav_1_19, human_1_20=uav_1_20, 
 human_2_0=uav_2_0, human_2_1=uav_2_1, human_2_2=uav_2_2, human_2_3=uav_2_3, human_2_4=uav_2_4, human_2_5=uav_2_5, human_2_6=uav_2_6, human_2_7=uav_2_7, human_2_8=uav_2_8, human_2_9=uav_2_9, human_2_10=uav_2_10, human_2_11=uav_2_11, human_2_12=uav_2_12, human_2_13=uav_2_13, human_2_14=uav_2_14, human_2_15=uav_2_15, human_2_16=uav_2_16, human_2_17=uav_2_17, human_2_18=uav_2_18, human_2_19=uav_2_19, human_2_20=uav_2_20, 
@@ -524,8 +563,8 @@ human_20_0=uav_20_0, human_20_1=uav_20_1, human_20_2=uav_20_2, human_20_3=uav_20
 endmodule
 
 // ugv agent
-module ugv = human [h=g, move_h=move_g,
-human_0_0=ugv_0_0, human_0_1=ugv_0_1, human_0_2=ugv_0_2, human_0_3=ugv_0_3, human_0_4=ugv_0_4, human_0_5=ugv_0_5, human_0_6=ugv_0_6, human_0_7=ugv_0_7, human_0_8=ugv_0_8, human_0_9=ugv_0_9, human_0_10=ugv_0_10, human_0_11=ugv_0_11, human_0_12=ugv_0_12, human_0_13=ugv_0_13, human_0_14=ugv_0_14, human_0_15=ugv_0_15, human_0_16=ugv_0_16, human_0_17=ugv_0_17, human_0_18=ugv_0_18, human_0_19=ugv_0_19, human_0_20=ugv_0_20, 
+module ugv = human [h=g, move_h=move_g, Ch_MAX=Cg_MAX, Sh=Sg,
+			human_0_0=ugv_0_0, human_0_1=ugv_0_1, human_0_2=ugv_0_2, human_0_3=ugv_0_3, human_0_4=ugv_0_4, human_0_5=ugv_0_5, human_0_6=ugv_0_6, human_0_7=ugv_0_7, human_0_8=ugv_0_8, human_0_9=ugv_0_9, human_0_10=ugv_0_10, human_0_11=ugv_0_11, human_0_12=ugv_0_12, human_0_13=ugv_0_13, human_0_14=ugv_0_14, human_0_15=ugv_0_15, human_0_16=ugv_0_16, human_0_17=ugv_0_17, human_0_18=ugv_0_18, human_0_19=ugv_0_19, human_0_20=ugv_0_20, 
 human_1_0=ugv_1_0, human_1_1=ugv_1_1, human_1_2=ugv_1_2, human_1_3=ugv_1_3, human_1_4=ugv_1_4, human_1_5=ugv_1_5, human_1_6=ugv_1_6, human_1_7=ugv_1_7, human_1_8=ugv_1_8, human_1_9=ugv_1_9, human_1_10=ugv_1_10, human_1_11=ugv_1_11, human_1_12=ugv_1_12, human_1_13=ugv_1_13, human_1_14=ugv_1_14, human_1_15=ugv_1_15, human_1_16=ugv_1_16, human_1_17=ugv_1_17, human_1_18=ugv_1_18, human_1_19=ugv_1_19, human_1_20=ugv_1_20, 
 human_2_0=ugv_2_0, human_2_1=ugv_2_1, human_2_2=ugv_2_2, human_2_3=ugv_2_3, human_2_4=ugv_2_4, human_2_5=ugv_2_5, human_2_6=ugv_2_6, human_2_7=ugv_2_7, human_2_8=ugv_2_8, human_2_9=ugv_2_9, human_2_10=ugv_2_10, human_2_11=ugv_2_11, human_2_12=ugv_2_12, human_2_13=ugv_2_13, human_2_14=ugv_2_14, human_2_15=ugv_2_15, human_2_16=ugv_2_16, human_2_17=ugv_2_17, human_2_18=ugv_2_18, human_2_19=ugv_2_19, human_2_20=ugv_2_20, 
 human_3_0=ugv_3_0, human_3_1=ugv_3_1, human_3_2=ugv_3_2, human_3_3=ugv_3_3, human_3_4=ugv_3_4, human_3_5=ugv_3_5, human_3_6=ugv_3_6, human_3_7=ugv_3_7, human_3_8=ugv_3_8, human_3_9=ugv_3_9, human_3_10=ugv_3_10, human_3_11=ugv_3_11, human_3_12=ugv_3_12, human_3_13=ugv_3_13, human_3_14=ugv_3_14, human_3_15=ugv_3_15, human_3_16=ugv_3_16, human_3_17=ugv_3_17, human_3_18=ugv_3_18, human_3_19=ugv_3_19, human_3_20=ugv_3_20, 
@@ -584,7 +623,6 @@ module site_17 = site_one[s1=s17, site1=site17] endmodule
 module site_18 = site_one[s1=s18, site1=site18] endmodule
 module site_19 = site_one[s1=s19, site1=site19] endmodule
 module site_20 = site_one[s1=s20, site1=site20] endmodule
-
 // counter for time
 rewards "time"
 	[time]true : 1;
